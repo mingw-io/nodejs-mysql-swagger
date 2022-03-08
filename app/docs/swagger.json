@@ -1,0 +1,247 @@
+{
+	"swagger": "2.0",
+    "info": {
+        "description": "Swagger Documentation for endpoints (ACME University).",
+        "version": "1.0.0",
+        "title": "RESTful API",
+        "contact": {
+            "name": "ACME University",
+            "url": "https://localhost:3001/",
+            "email": "support@mingw.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Development server"
+        }
+    ],
+    "schemes": ["http"],
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "paths" : {
+        "/courses" : {
+            "get" : {
+                "summary" : "Get all courses (undergraduate & postgraduate)",
+                "description": "Get all the courses",
+                "produces": ["application/json"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/coursesResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            },
+			"post": {
+				"summary" : "Save a new course",
+                "description": "Save a course",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "course object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+							"$ref": "#/definitions/Course"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/coursesResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+					"404": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+			}
+        },
+        "/courses/{id}" : {
+            "put" : {
+                "summary" : "Update an existing course",
+                "description": "Update an existing course",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "course id that needs to be updated",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "course object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "course" : {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Course"
+                                } 
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/coursesResponse"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+					"412": {
+                        "description": "Invalid course details provided",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/course/{id}" : {
+            "delete" : {
+                "summary" : "Delete an existing course",
+                "description": "Delete a course",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "course id that needs to be deleted",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/coursesResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "coursesResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                     "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "university": {
+                    "type": "string"
+                },
+				"level": {
+                    "type": "string"
+                }
+            }
+        },
+        "Course": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "university": {
+                    "type": "string"
+                }
+            }
+        },
+        "InvalidResponse": {
+            "type": "object",
+            "properties": {
+                "statusCode": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    },
+    "securityDefinitions": {
+    "bearerAuth": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "JWT Authorization header"
+    },
+	"oauth": {
+            "type": "oauth2",
+			"description": "This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)",
+            "authorizationUrl": "http://api.example.com/api/auth",
+            "flow": "implicit",
+            "scopes": {
+                "read:courses": "read course data"
+            }
+        }
+    },
+    "security": [ { "bearerAuth": [] } ]
+}
