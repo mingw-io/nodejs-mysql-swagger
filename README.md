@@ -26,3 +26,13 @@ git clone https://github.com/mingw-io/nodejs-mysql-swagger
 * Verify the NodeJS app: http://localhost:8080/
 
 * Go to http://localhost:8080/api-docs/
+
+**Screenshots**
+
+![image](https://user-images.githubusercontent.com/70483213/157338412-ab48248c-5c3c-475a-a3c6-84c1a30406fa.png)
+
+
+![image](https://user-images.githubusercontent.com/70483213/157338436-0062b761-af0f-4f95-baa9-d16b1fc178a9.png)
+
+
+![image](https://user-images.githubusercontent.com/70483213/157338657-1a0a2559-ee97-4468-b091-1e1d36cfb8d2.png)
